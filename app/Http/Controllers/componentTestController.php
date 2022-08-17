@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class componentTestController extends Controller
+{
+    //
+    public function showcomponent1 (){
+        return view('tests.component-test1');
+    }
+    public function showcomponent2 (){
+        return view('tests.component-test2');
+    }
+}
