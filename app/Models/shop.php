@@ -6,9 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Owner;
 
-class shop extends Model
+class Shop extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'owner_id',
+        'name',
+        'infomation',
+        'filename',
+        'is_selling'
+    ];
+
 
     public function owner()
     {
