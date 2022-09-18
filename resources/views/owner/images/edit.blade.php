@@ -41,9 +41,9 @@
                         @csrf
                         @method('delete')
                         <div class="p-2 w-full flex justify-around mt-32">
-                                <a href="#" data-id="{{ $image->id }}" onclick="deletePost(this)" class="text-white bg-red-400 border-0 py-2 px-4 focus:outline-none hover:bg-red-500 rounded ">削除する</a>
-                            </div>
-                        </form>
+                            <a href="#" data-id="{{ $image->id }}" onclick="deletePost(this)" class="text-white bg-red-400 border-0 py-2 px-4 focus:outline-none hover:bg-red-500 rounded ">削除する</a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
