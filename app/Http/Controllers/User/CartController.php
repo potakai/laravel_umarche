@@ -115,7 +115,7 @@ class CartController extends Controller
                 'quantity' => $product->pivot->quantity,
             ]],
             'mode' => 'payment',
-            'success_url' => route('user.items.index'),
+            'success_url' => route('user.cart.success'),
             'cancel_url' => route('user.cart.index'),
         ]);
 
@@ -123,5 +123,13 @@ class CartController extends Controller
 
         return view('user.checkout',
             compact('session', 'publicKey'));
+    }
+
+    public function success()
+    {
+        Cart::where('user_id',Auth::id())->delete();
+
+        return redirect()->route('user.items.index');
+
     }
 }
