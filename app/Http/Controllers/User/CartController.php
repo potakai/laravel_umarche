@@ -66,22 +66,27 @@ class CartController extends Controller
             $quantity = Stock::where('product_id', $product->id)->sum('quantity');
 
             if($product->pivot->quantity > $quantity){
+                
                 return redirect()->route('user.cart.index');
             } else {
-                $lineItem = [
-                    'name' => $product->name,
-                    'description' => $product->information,
-                    'amount' => $product->price,
-                    'currenncy' => 'jpy',
-                    'quantity' => $product->pivot->quantity
-                ];
+                $lineItem = [[ 
+                    'product_data' => [
+                        'name' => $product->name,
+                        'description' => $product->information,
+                        'price_data' => [
+                            'unit_amount' => $product->price,
+                            'currenncy' => 'jpy',
+                        ],
+                    ],
+                    'quantity' => $product->pivot->quantity,
+                ]];
                 array_push($lineItems, $lineItem);
             }
 
 
             
         }
-        // dd($lineItems);
+        //dd($lineItems);
         foreach($products as $product){
             Stock::create([
                 'product_id' => $product->id,
@@ -91,14 +96,24 @@ class CartController extends Controller
             ]);
         }
 
-        dd('test');
+        //dd('test');
 
 
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
 
         $session = \Stripe\Checkout\Session::create([
-            'payment_method_type' => ['card'],
-            'line_items' =>[$lineItems],
+            'payment_method_types' => ['card'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'jpy',
+                    'unit_amount' => $product->price,
+                    'product_data' => [
+                        'name' => $product->name,
+                        'description' => $product->information,
+                    ],
+                ],
+                'quantity' => $product->pivot->quantity,
+            ]],
             'mode' => 'payment',
             'success_url' => route('user.items.index'),
             'cancel_url' => route('user.cart.index'),

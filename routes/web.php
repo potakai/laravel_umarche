@@ -19,7 +19,7 @@ use App\Http\Controllers\User\CartController;
 */
 
 Route::get('/', function () {
-    return view('user.welcome');
+        return view('user.welcome');
 });
 
 Route::middleware('auth:users')->group(function(){
